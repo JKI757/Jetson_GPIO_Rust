@@ -1,32 +1,31 @@
-    constexpr auto VERSION = "0.1.1";
-    extern const std::string JETSON_INFO;
-    extern const std::string model;
+    let VERSION : String = "0.1.1";
+    let JETSON_INFO : String
+    let model : String;
 
 
     // Pin Numbering Modes
-    enum class NumberingModes{ BOARD, BCM, TEGRA_SOC, CVM, None };
+    enum NumberingModes{ BOARD, BCM, TEGRA_SOC, CVM, None };
     
     // GPIO::BOARD, GPIO::BCM, GPIO::TEGRA_SOC, GPIO::CVM
-    constexpr NumberingModes BOARD = NumberingModes::BOARD;
-    constexpr NumberingModes BCM = NumberingModes::BCM;
-    constexpr NumberingModes TEGRA_SOC = NumberingModes::TEGRA_SOC;
-    constexpr NumberingModes CVM = NumberingModes::CVM;
-
+    let BOARD: NumberingModes = NumberingModes::BOARD;
+    let BCM : NumberingModes = NumberingModes::BCM;
+    let TEGRA_SOC : NumberingModes = NumberingModes::TEGRA_SOC;
+    let CVM NumberingModes = NumberingModes::CVM;
    // Pull up/down options are removed because they are unused in NVIDIA's original python libarary.
    // check: https://github.com/NVIDIA/jetson-gpio/issues/5
 
-    constexpr int HIGH = 1;
-    constexpr int LOW = 0;
+    let HIGH = 1;
+    let LOW = 0;
 
     // GPIO directions. 
     // UNKNOWN constant is for gpios that are not yet setup
     // If the user uses UNKNOWN or HARD_PWM as a parameter to GPIO::setmode function,
     // An exception will occur
-    enum class Directions{ UNKNOWN, OUT, IN, HARD_PWM };
+    enum Directions{ UNKNOWN, OUT, IN, HARD_PWM };
 
     // GPIO::IN, GPIO::OUT
-    constexpr Directions IN = Directions::IN;
-    constexpr Directions OUT = Directions::OUT;
+    let IN : Directions = Directions::IN;
+    let OUT : Directions = Directions::OUT;
     
     // Function used to enable/disable warnings during setup and cleanup.
     void setwarnings(bool state);
@@ -69,19 +68,4 @@
    //----------------------------------
    
 
-    class PWM{
-    public:
-      PWM(int channel, int frequency_hz);
-      PWM(const PWM&) = delete;              // Can't create duplicate PWM objects
-      PWM& operator=(const PWM&) = delete;   // Can't create duplicate PWM objects
-      ~PWM();
-      void start(double duty_cycle_percent);
-      void stop();
-      void ChangeFrequency(int frequency_hz);
-      void ChangeDutyCycle(double duty_cycle_percent);
-
-   private:
-      struct Impl;
-      const std::unique_ptr<Impl> pImpl;
-    };
 }
